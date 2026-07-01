@@ -205,8 +205,10 @@ const spanishRepeatCountInput = document.getElementById("spanishRepeatCount");
       synth.cancel();
 
       const phrases = parsePhrases(phrasesInput.value);
-      const rate = Number(rateInput.value);
-      const repeats = Number(repeatCountInput.value);
+      const englishRate = Number(englishRateInput.value);
+const spanishRate = Number(spanishRateInput.value);
+const englishRepeats = Number(englishRepeatCountInput.value);
+const spanishRepeats = Number(spanishRepeatCountInput.value);
       const delay = Number(delayMsInput.value);
 
       const englishVoice = getVoiceByName(englishVoiceSelect.value);
@@ -221,22 +223,26 @@ const spanishRepeatCountInput = document.getElementById("spanishRepeatCount");
 
       try {
         for (const phrase of phrases) {
-          for (let i = 0; i < repeats; i++) {
-            if (stopped) return;
+  for (let i = 0; i < englishRepeats; i++) {
+    if (stopped) return;
 
-            setCurrentPhrase("English: " + phrase.english);
-            await speakText(phrase.english, englishVoice, "en-US", rate);
+    setCurrentPhrase("English: " + phrase.english);
+    await speakText(phrase.english, englishVoice, "en-US", englishRate);
 
-            if (stopped) return;
-            await wait(delay);
+    if (stopped) return;
+    await wait(delay);
+  }
 
-            setCurrentPhrase("Spanish: " + phrase.spanish);
-            await speakText(phrase.spanish, spanishVoice, "es-ES", rate);
+  for (let i = 0; i < spanishRepeats; i++) {
+    if (stopped) return;
 
-            if (stopped) return;
-            await wait(delay);
-          }
-        }
+    setCurrentPhrase("Spanish: " + phrase.spanish);
+    await speakText(phrase.spanish, spanishVoice, "es-ES", spanishRate);
+
+    if (stopped) return;
+    await wait(delay);
+  }
+}
 
         setStatus("Finished");
         setCurrentPhrase("Done");
